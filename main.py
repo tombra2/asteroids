@@ -3,7 +3,8 @@ from textwrap import fill
 import pygame
 from constants import SCREEN_WIDTH
 from constants import SCREEN_HEIGHT
-from logger import  log_state
+from logger import log_state
+from player import Player
 
 
 def main():
@@ -13,15 +14,21 @@ def main():
     print(f"Screen height: {SCREEN_HEIGHT}")
 
     pygame.init()
-    screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
-
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    pygame.time.Clock()
+    player = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
+    dt = 0
     while True:
         log_state()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
-        fill("black")
+        screen.fill("black")
+        player.draw(screen)
+        player.update(dt)
         pygame.display.flip()
+        fps =pygame.time.Clock().tick(60)
+        dt = fps/1000
 
 
 if __name__ == "__main__":
